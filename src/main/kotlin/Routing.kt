@@ -1,10 +1,9 @@
 package com.dabelyu
 
 import com.dabelyu.repository.UserRepository
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
-import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -23,8 +22,17 @@ fun Application.configureRouting() {
             call.respondText("I love you!")
         }
 
-        get("/users") {
-            call.respond(UserRepository.getAllUsers())
+        route("/users") {
+
+            get {
+                call.respond(UserRepository.getAllUsers())
+            }
+
+            get("/{id}") {
+                call.parameters["id"]?.toIntOrNull()?.let { id ->
+                    call.respond(UserRepository.getUserById(id) ?: HttpStatusCode.NotFound)
+                } ?: call.respond(HttpStatusCode.NotFound, "User not found")
+            }
         }
 
         post("/users") {
