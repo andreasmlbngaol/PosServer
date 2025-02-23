@@ -6,7 +6,7 @@ ktor:
     port: 8080
     host: 0.0.0.0
   database:
-    url: "jdbc:postgresql://localhost:5432/test_db"
+    url: "jdbc:postgresql://localhost:5432/pos_db"
     driver: "org.postgresql.Driver"
     user: "postgres"
     password: "password"

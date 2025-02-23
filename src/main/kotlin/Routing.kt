@@ -1,16 +1,11 @@
 package com.dabelyu
 
-import com.dabelyu.repository.UserRepository
+import com.dabelyu.repository.PosRepository
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
-import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class UserRequest(val name: String, val email: String)
 
 fun Application.configureRouting() {
     routing {
@@ -22,26 +17,16 @@ fun Application.configureRouting() {
             call.respondText("I love you!")
         }
 
-        route("/users") {
+        route("/items") {
 
             get {
-                call.respond(UserRepository.getAllUsers())
+                call.respond(PosRepository.getAllItems())
             }
 
-            get("/{id}") {
-                call.parameters["id"]?.toIntOrNull()?.let { id ->
-                    call.respond(UserRepository.getUserById(id) ?: HttpStatusCode.NotFound)
-                } ?: call.respond(HttpStatusCode.NotFound, "User not found")
-            }
-        }
-
-        post("/users") {
-            val request = call.receive<UserRequest>()
-            val newUser = UserRepository.addUser(request.name, request.email)
-            if (newUser != null) {
-                call.respond(newUser)
-            } else {
-                call.respondText("Failed to add user")
+            get("/{code}") {
+                call.parameters["code"]?.toIntOrNull()?.let { code ->
+                    call.respond(PosRepository.getItemByCode(code) ?: HttpStatusCode.NotFound)
+                } ?: call.respond(HttpStatusCode.NotFound, "Item not found")
             }
         }
 
