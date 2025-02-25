@@ -18,7 +18,6 @@ fun Application.configureRouting() {
         }
 
         route("/stocks") {
-
             get {
                 val id = call.parameters["id"]?.toIntOrNull()
                 val code = call.parameters["code"]
@@ -30,7 +29,14 @@ fun Application.configureRouting() {
                 } else {
                     call.respond(PosRepository.getAllItems())
                 }
+            }
+        }
 
+        route("/users") {
+            get {
+                call.parameters["uid"]?.let { uid ->
+                    call.respond(PosRepository.getUser(uid) ?: HttpStatusCode.NotFound)
+                } ?: call.respond(PosRepository.getAllUsers())
             }
         }
 
