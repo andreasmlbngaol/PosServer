@@ -10,6 +10,15 @@ CREATE TABLE stocks (
     code VARCHAR(32) NOT NULL UNIQUE
 );
 
+CREATE TABLE users {
+    id SERIAL PRIMARY KEY,
+    uid VARCHAR(12) NOT NULL UNIQUE,
+    pin CHAR(60) NOT NULL
+);
+
+INSERT INTO users (id, uid, pin) VALUES
+    (1, 'root', '$2a$12$xiICjRicEOylOdOxTyZN.uqXXyNZobLPxiC/DXmUO/ljX0mSvjr9C');
+
 INSERT INTO stocks (id, name, price, stock, code) VALUES
     (1, 'Chitato', 12000, 10, 'f56322e8'),
     (2, 'Oreo', 9000, 10, '3f29909e'),
@@ -63,3 +72,4 @@ INSERT INTO stocks (id, name, price, stock, code) VALUES
     (50, 'Bakso So Good', 29000, 10, 'a03d62a5');
 
 SELECT * FROM stocks;
+SELECT * FROM users;
