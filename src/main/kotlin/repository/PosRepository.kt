@@ -1,35 +1,59 @@
 package com.dabelyu.repository
 
-import com.dabelyu.models.ItemTable
+import com.dabelyu.models.StockTable
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 @Serializable
-data class Item(
-    val code: Int,
+data class Stock(
+    val id: Int,
+    val code: String,
     val name: String,
-    val price: Float
+    val price: Float,
+    val stock: Int
 )
 
 object PosRepository {
-    fun getAllItems(): List<Item> = transaction {
-        ItemTable.selectAll().map { item ->
-            Item(
-                code = item[ItemTable.code],
-                name = item[ItemTable.name],
-                price = item[ItemTable.price]
-            )
+    fun getAllItems() = transaction {
+        StockTable
+            .selectAll()
+            .map {
+                Stock(
+                    id = it[StockTable.id],
+                    code = it[StockTable.code],
+                    name = it[StockTable.name],
+                    price = it[StockTable.price],
+                    stock = it[StockTable.stock]
+                )
+            }
         }
+
+    fun getItemById(id: Int) = transaction {
+        StockTable
+            .select { StockTable.id eq id }
+            .map {
+                Stock(
+                    id = it[StockTable.id],
+                    code = it[StockTable.code],
+                    name = it[StockTable.name],
+                    price = it[StockTable.price],
+                    stock = it[StockTable.stock]
+                )
+            }
+            .singleOrNull()
     }
 
-    fun getItemByCode(code: Int) = transaction {
-        ItemTable.select { ItemTable.code eq code }
-            .map { item ->
-                Item(
-                    code = item[ItemTable.code],
-                    name = item[ItemTable.name],
-                    price = item[ItemTable.price]
+    fun getItemByCode(code: String) = transaction {
+        StockTable
+            .select { StockTable.code eq code }
+            .map {
+                Stock(
+                    id = it[StockTable.id],
+                    code = it[StockTable.code],
+                    name = it[StockTable.name],
+                    price = it[StockTable.price],
+                    stock = it[StockTable.stock]
                 )
             }
             .singleOrNull()

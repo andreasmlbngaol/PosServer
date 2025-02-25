@@ -2,20 +2,24 @@ package com.dabelyu.db
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import java.sql.Connection
 
 object DatabaseFactory {
-    fun init(environment: ApplicationEnvironment) {
-        val config = environment.config.config("ktor.database")
+//    fun init(environment: ApplicationEnvironment) {
+//        val config = environment.config.config("ktor.database")
+//            jdbcUrl = config.propertyOrNull("url")?.getString()
+//            driverClassName = config.propertyOrNull("driver")?.getString()
+//            username = config.propertyOrNull("user")?.getString()
+//            password = config.propertyOrNull("password")?.getString()
 
+    fun init() {
         val hikariConfig = HikariConfig().apply {
-            jdbcUrl = config.property("url").getString()
-            driverClassName = config.property("driver").getString()
-            username = config.property("user").getString()
-            password = config.property("password").getString()
+            jdbcUrl = "jdbc:postgresql://localhost:5432/pos_db"
+            driverClassName = "org.postgresql.Driver"
+            username = "postgres"
+            password = "password"
             maximumPoolSize = 5
             isAutoCommit = false
             transactionIsolation = "TRANSACTION_REPEATABLE_READ"

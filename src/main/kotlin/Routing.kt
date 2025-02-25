@@ -17,16 +17,20 @@ fun Application.configureRouting() {
             call.respondText("I love you!")
         }
 
-        route("/items") {
+        route("/stocks") {
 
             get {
-                call.respond(PosRepository.getAllItems())
-            }
+                val id = call.parameters["id"]?.toIntOrNull()
+                val code = call.parameters["code"]
 
-            get("/{code}") {
-                call.parameters["code"]?.toIntOrNull()?.let { code ->
+                if(id != null) {
+                    call.respond(PosRepository.getItemById(id) ?: HttpStatusCode.NotFound)
+                } else if (code != null) {
                     call.respond(PosRepository.getItemByCode(code) ?: HttpStatusCode.NotFound)
-                } ?: call.respond(HttpStatusCode.NotFound, "Item not found")
+                } else {
+                    call.respond(PosRepository.getAllItems())
+                }
+
             }
         }
 
