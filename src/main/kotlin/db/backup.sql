@@ -2,7 +2,7 @@ CREATE DATABASE pos_db;
 
 \c pos_db;
 
-CREATE TABLE item (
+CREATE TABLE stocks (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     price DOUBLE PRECISION NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE item (
     code VARCHAR(32) NOT NULL UNIQUE
 );
 
-INSERT INTO item (id, name, price, stock, code) VALUES
+INSERT INTO stocks (id, name, price, stock, code) VALUES
     (1, 'Chitato', 12000, 10, 'f56322e8'),
     (2, 'Oreo', 9000, 10, '3f29909e'),
     (3, 'Taro', 8000, 10, '24b40ae6'),
@@ -62,4 +62,4 @@ INSERT INTO item (id, name, price, stock, code) VALUES
     (49, 'Sosis Kanzler', 27000, 10, 'd3e60487'),
     (50, 'Bakso So Good', 29000, 10, 'a03d62a5');
 
-SELECT * FROM item;
+SELECT * FROM stocks;
