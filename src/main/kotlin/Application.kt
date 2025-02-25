@@ -8,7 +8,7 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    DatabaseFactory.init(environment)
+    DatabaseFactory.init()
     configureSerialization()
     configureRouting()
 }
